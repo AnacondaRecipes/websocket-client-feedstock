@@ -13,7 +13,7 @@ source:
   sha256: 63509b41d158ae5b7f67eb4ad20fecbb4eee99434e73e140354dc3ff8e09716f
 
 build:
-  number: 4
+  number: 5
   script: "{{ PYTHON }} -m pip install . -vv"
   # Cannot be no-arch due to bytecode issues.
 

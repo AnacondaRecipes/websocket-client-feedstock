@@ -14,12 +14,11 @@ source:
 
 build:
   number: 4
+  # trigger: 0
   script: "{{ PYTHON }} -m pip install . -vv"
   # Cannot be no-arch due to bytecode issues.
 
 requirements:
-  build:
-    - python                                 # [build_platform != target_platform]
   host:
     - python
     - pip

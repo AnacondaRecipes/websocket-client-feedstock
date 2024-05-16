@@ -33,10 +33,6 @@ test:
   commands:
     - pip check
     - wsdump --help
-    - export TEST_WITH_INTERNET="0"    # [unix]
-    - export LOCAL_WS_SERVER_PORT="-1" # [unix]
-    - set TEST_WITH_INTERNET="0"       # [win]
-    - set LOCAL_WS_SERVER_PORT="-1"    # [win]
     - pytest --pyargs websocket.tests -v -r f
   requires:
     - pip

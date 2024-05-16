@@ -1,44 +1,56 @@
 {% set name = "websocket-client" %}
 {% set snakename = "websocket_client" %}
 {% set bundle = "tar.gz" %}
-{% set version = "0.58.0" %}
+{% set version = "1.8.0" %}
 
 package:
   name: {{ name }}
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.{{ bundle }}
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ snakename }}/{{ snakename }}-{{ version }}.{{ bundle }}
-  sha256: 63509b41d158ae5b7f67eb4ad20fecbb4eee99434e73e140354dc3ff8e09716f
+  sha256: 3239df9f44da632f96012472805d40a23281a991027ce11d2f45a6f24ac4c3da
 
 build:
-  number: 4
-  # trigger: 0
-  script: "{{ PYTHON }} -m pip install . -vv"
-  # Cannot be no-arch due to bytecode issues.
+  entry_points:
+    - wsdump=websocket._wsdump:main
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  number: 0
+  skip: true # [py<38]
 
 requirements:
   host:
     - python
     - pip
-
+    - setuptools
+    - wheel
   run:
     - python
-    - six
 
 test:
   imports:
     - websocket
-    - websocket.tests
+  commands:
+    - pip check
+    - wsdump --help
+    - pytest --pyargs websocket.tests -v -r f
+  requires:
+    - pip
+    - pytest
 
 about:
-  home: https://github.com/liris/websocket-client
+  home: https://github.com/websocket-client/websocket-client
+  license: Apache-2.0
   license_file: LICENSE
-  license: BSD-3-Clause
-  license_family: BSD
-  summary: 'WebSocket client for python. hybi13 is supported.'
-  dev_url: https://github.com/liris/websocket-client
+  license_family: Apache
+  summary: WebSocket client for Python
+  description: |
+    websocket-client is a WebSocket client for Python. It provides access to 
+    low level APIs for WebSockets. websocket-client implements version hybi-13 
+    of the WebSocket protocol. This client does not currently support the 
+    permessage-deflate extension from RFC 7692.
+  dev_url: https://github.com/websocket-client/websocket-client
+  doc_url: https://github.com/websocket-client/websocket-client
 
 extra:
   recipe-maintainers:
